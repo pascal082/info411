@@ -5,14 +5,14 @@ import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import datetime
 from datetime import timedelta
+import os
 rcParams['figure.figsize'] = 15, 6
 
-
-data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
+print os.getenv('COMPUTERNAME', 'defaultValue')
 #pascal pc
 if(os.getenv('COMPUTERNAME', 'defaultValue') =="WKS"):
-   data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
-elif(os.getenv('COMPUTERNAME', 'defaultValue') =="Raymund"):  #raymund pc
+    data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
+elif(os.getenv('COMPUTERNAME', 'defaultValue') =="RAYMUND"):  #raymund pc
     data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2SEM_MS\INFO411\ASS@\elecNorm.csv', index_col='day')
 
 #add date time column
@@ -49,7 +49,7 @@ datescolumn['new_date']=newlist.values
 
 
 merge_data= pd.merge(data,datescolumn, on='new_date')
-print merge_data
+
 #season
 season=[]
 for i in merge_data['month']:
@@ -64,16 +64,18 @@ for i in merge_data['month']:
     else:
         season.append('none')
 
+merge_data['season'] =season
+
+
+
 
 mean_average=[]
 
-print np.mean(merge_data['nswprice'][1:48])
+#print np.mean(merge_data['nswprice'][1:48])
 for j in range(len(merge_data['nswprice'])):
     mean_average.append(np.mean(merge_data['nswprice'][1:j]))
 
-print mean_average
-plt.plot(merge_data['nswprice'])
-plt.show()
+
 
 
 
