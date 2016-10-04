@@ -23,7 +23,6 @@ def drift_detection():
         df=X[i:i+48]
         data_label.append(df['class_data'])
 
-
         if(df.groupby('class_data').size()[0] >0):
 
             pi= df.groupby('class_data').size()[0]/(i+48)
