@@ -4,16 +4,17 @@ import numpy as np
 import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import datetime
+import os
 from datetime import timedelta
 rcParams['figure.figsize'] = 15, 6
 
 
-data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
+#data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
 #pascal pc
-if(os.getenv('COMPUTERNAME', 'defaultValue') =="WKS"):
-   data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
-elif(os.getenv('COMPUTERNAME', 'defaultValue') =="Raymund"):  #raymund pc
-    data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2SEM_MS\INFO411\ASS@\elecNorm.csv', index_col='day')
+#if(os.getenv('COMPUTERNAME', 'defaultValue') =="WKS"):
+    #data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv',index_col='day')
+#elif(os.getenv('COMPUTERNAME', 'defaultValue') == "Raymund"):
+data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2ndSEM_MS\INFO411\ASS2\elecNorm.csv', index_col='day')
 
 #add date time column
 list=[]
