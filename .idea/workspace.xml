@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d285d67-b4a7-4597-9de3-3da144699ace" name="Default" comment="added path to both team member pc">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DecisionTree.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DriftDetection.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Main.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SVM.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project_assigment.py" afterPath="$PROJECT_DIR$/project_assigment.py" />
-    </list>
+    <list default="true" id="3d285d67-b4a7-4597-9de3-3da144699ace" name="Default" comment="added path to both team member pc" />
     <ignored path="411_groupproject.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -65,11 +56,9 @@
       <file leaf-file-name="Data.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="47" column="48" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="48" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="39">
+              <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -631,11 +620,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="47" column="48" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="39">
+          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
