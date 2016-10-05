@@ -84,6 +84,55 @@ def Train_data():
     data = data[['nswprice', 'nswdemand','class_data','year','period']]
     return data
 
+def season_winter():
+    data = original_data()
+
+    data = data[data.season =='winter']
+    return data
+
+def season_summer():
+    data = original_data()
+    data = data[data.season == 'summer']
+    return data
+
+def season_autumn():
+    data = original_data()
+    data = data[data.season == 'autumn']
+    return data
+
+
+def season_spring():
+    data = original_data()
+    data = data[data.season == 'spring']
+    return data
+
+def month5_96():
+    data = original_data()
+    yr1996 = data[data.year == 1996]
+    data = yr1996[yr1996.month == 5]
+    return data
+
+def day_97():
+    data = original_data()
+    yr1997 = data[data.year == 1997]
+    data = yr1997[yr1997.day == 1]
+    return data
+
+def year1996():
+    data = original_data()
+    data = data[data.year == 1996]
+    return data
+
+def year1997():
+    data = original_data()
+    data = data[data.year == 1997]
+    return data
+
+def year1998():
+    data = original_data()
+    data = data[data.year == 1998]
+    return data
+
 
 
 
