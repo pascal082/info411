@@ -81,7 +81,7 @@ def original_data():
 # get training data with nswprice and nswdemand as features
 def Train_data():
     data=original_data()
-    data = data[['nswprice', 'nswdemand','class_data','year','period']]
+    data = data[['nswprice', 'nswdemand','class_data','year','period','class']]
     return data
 
 

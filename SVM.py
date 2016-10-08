@@ -4,49 +4,92 @@ import Data
 
 def SVM_Classifier(train,test):
 
+    X = train[['nswprice', 'nswdemand']]
+    Y = (train['class'] == 'UP').astype(int)
+    X1 = test[['nswprice', 'nswdemand']]
+    Y1 = (test['class'] == 'UP').astype(int)
 
-    #print train.head()
-    ## subset training and testing data
-    X= train[['nswprice','nswdemand','period']]
-    X_test = test[['nswprice','nswdemand','period']]
+    clf = svm.SVC(kernel='linear', C=1.0)
+    clf = clf.fit(X, Y)
 
-    #subset target convert to 1 and 0
-    y =train[['class_data']]
-    y_test =test[['class_data']]
-    #plt.scatter(X,Y)
-    #plt.show()
+    TG = []
+    FG = []
+    Tr = []
+    Fr = []
 
+    value = clf.predict(X1)
 
-    #fit model
-    clf = svm.SVC(kernel='rbf', C = 1.0)
-
-    clf.fit(X,y)
-
-    print 'SVC Model:', clf.score(X,y)
-
-    ## use model to predict
-
-    ypred_label = clf.predict(X_test)
-    print ypred_label
-    ## measure accuracy of SVM
-    Tr=[]
-    Fr=[]
     # count how many was truly positive
-    TP = len([i for i, j in zip(y_test, ypred_label) if i == j and j == 1])
+    TP = len([i for i, j in zip(Y1, value) if i == j and j == 1])
 
     # count how many was false positive  i.e incorrectly indentified
-    FP = len([i for i, j in zip(y_test, ypred_label) if i != j and j == 1])
+    FP = len([i for i, j in zip(Y1, value) if i != j and j == 1])
 
     # count how many was true negative  i.e correctly rejected
-    TN = len([i for i, j in zip(y_test, ypred_label) if i != 1 and j == 0])
+    TN = len([i for i, j in zip(Y1, value) if i != 1 and j == 0])
 
     # count how many was false negative  i.e incorrectly rejected
-    FN = len([i for i, j in zip(y_test, ypred_label) if i == 1 and j == 0])
+    FN = len([i for i, j in zip(Y1, value) if i == 1 and j == 0])
 
 
-    print TP,TN,FP,FN,len(ypred_label)
-    accurancy = (TP + TN)/ len(ypred_label)
-    print  'SVC Accuracy:', accurancy * 100
+    accurancy= (TP+TN)/len(value)
+
+    error_rate = (TN + FN) / len(value)
+
+    return accurancy, error_rate
+
+
+def SVM_Train(train):
+    X = train[['nswprice', 'nswdemand']]
+
+    Y = (train['class'] == 'UP').astype(int)
+
+
+    clf = svm.SVC(kernel='linear', C=1.0)
+    clf = clf.fit(X, Y)
+    return clf
+
+
+def SVM_Predict(test, clf):
+    X1 = test[['nswprice', 'nswdemand']]
+    Y1 = (test['class'] == 'UP').astype(int)
+
+    TG = []
+    FG = []
+    Tr = []
+    Fr = []
+
+    value = clf.predict(X1)
+
+    # count how many was truly positive
+    TP = len([i for i, j in zip(Y1, value) if i == j and j == 1])
+
+    # count how many was false positive  i.e incorrectly indentified
+    FP = len([i for i, j in zip(Y1, value) if i != j and j == 1])
+
+    # count how many was true negative  i.e correctly rejected
+    TN = len([i for i, j in zip(Y1, value) if i != 1 and j == 0])
+
+    # count how many was false negative  i.e incorrectly rejected
+    FN = len([i for i, j in zip(Y1, value) if i == 1 and j == 0])
+
+    accurancy = (TP + TN) / len(value)
+    error_rate = (TN +FN)/ len(value)
+    FPR = float(FP / (TN + FP))
+    TPR = float(TP / (TP + FN))
+    Tr.append(TPR)
+    Fr.append(FPR)
+
+
+    return accurancy,error_rate,Tr,Fr
+
+
+
+
+
+
+
+
 
 
 

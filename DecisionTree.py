@@ -33,7 +33,9 @@ def DecisionTree(train,test):
 
 
     accurancy= (TP+TN)/len(value)
-    print  'Decision Tree Accuracy:', accurancy * 100
+    error_rate = (TN + FN) / len(value)
+
+    return  accurancy,error_rate
 
 
 def DecisionTree_Train(train):
@@ -69,8 +71,14 @@ def DecisionTree_Predict(test, clf):
     FN = len([i for i, j in zip(Y1, value) if i == 1 and j == 0])
 
     accurancy = (TP + TN) / len(value)
-    print  'Decision Tree Accuracy:', accurancy * 100
-    return accurancy
+    error_rate = (TN +FN)/ len(value)
+    FPR = float(FP / (TN + FP))
+    TPR = float(TP / (TP + FN))
+    Tr.append(TPR)
+    Fr.append(FPR)
+
+
+    return accurancy,error_rate,Tr,Fr
 
 
 
