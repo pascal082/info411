@@ -25,9 +25,9 @@ def Main():
     #OnlineClassification.Online_classification()
 
     #drift detection svm and decision tree
-    #DriftDetection.drift_detection()
+    DriftDetection.drift_detection()
 
     #small and big window detection
-    FixedWindowModel.FixedWindowModel()
+    #FixedWindowModel.FixedWindowModel()
 
 Main()

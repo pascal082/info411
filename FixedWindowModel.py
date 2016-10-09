@@ -22,6 +22,7 @@ svm_accurancy_list = []
 svm_Tr_list=[]
 svm_Fr_list=[]
 svm_error_rate_list=[]
+instance
 
 
 global clf
@@ -40,8 +41,8 @@ def FixedWindowModel():
 
     clf,svm_clf = training_model(first_instance)
 
-    bigwindow_test_model(next_instance)
-    smallwindow_test_model(next_instance)
+    bigwindow_test_model(next_instance,first_instance)
+    smallwindow_test_model(next_instance,first_instance)
 
 # method to call decision tree model
 def train_decision_model(instance):
@@ -66,17 +67,17 @@ def training_model(instance):
     return clf,svm_clf
 
 
-def bigwindow_test_model(instance):
+def bigwindow_test_model(next_instance, first_instance):
     global Pi_list, Si_list,clf,starting_point,svm_clf
 
 
-    for i in range(1,len(instance),2320):
-        new_instance = instance.iloc[i:i+2320]
-        # add more instance and retrain
-        instance = instance.append(new_instance, ignore_index=True)
+    for i in range(1,len(next_instance),2320):
+        new_instance = next_instance.iloc[i]
+        # add more instance and test
+        first_instance = first_instance.append(new_instance, ignore_index=True)
 
-        accurancy, error_rate, Tr, Fr = DecisionTree.DecisionTree_Predict(instance, clf)
-        svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(instance, svm_clf)
+        accurancy, error_rate, Tr, Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
+        svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(first_instance, svm_clf)
         accurancy_list.append(accurancy)
         svm_accurancy_list.append(svm_accurancy)
         Tr_list.append(Tr)
@@ -86,8 +87,8 @@ def bigwindow_test_model(instance):
         error_rate_list.append(error_rate)
         svm_error_rate_list.append(svm_error_rate)
 
-
-        clf,svm_clf = training_model(instance)
+        first_instance=first_instance.drop(first_instance.index[1])
+        clf,svm_clf = training_model(first_instance)
 
 
 
@@ -107,15 +108,17 @@ def bigwindow_test_model(instance):
 
 
 
-def smallwindow_test_model(instance):
+def smallwindow_test_model(next_instance, first_instance):
     global Pi_list, Si_list,clf,starting_point,svm_clf
 
 
-    for i in range(1,len(instance),2320):
-        new_instance = instance.iloc[i:i+2320]
+    for i in range(1,len(next_instance),2320):
+        new_instance = next_instance.iloc[i]
+        # add more instance and test
+        first_instance = first_instance.append(new_instance, ignore_index=True)
 
-        accurancy, error_rate, Tr, Fr = DecisionTree.DecisionTree_Predict(instance, clf)
-        svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(instance, svm_clf)
+        accurancy, error_rate, Tr, Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
+        svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(first_instance, svm_clf)
         accurancy_list.append(accurancy)
         svm_accurancy_list.append(svm_accurancy)
         Tr_list.append(Tr)
@@ -125,8 +128,10 @@ def smallwindow_test_model(instance):
         error_rate_list.append(error_rate)
         svm_error_rate_list.append(svm_error_rate)
 
+        first_instance=first_instance.drop(first_instance.index[1])
+        clf,svm_clf = training_model(first_instance)
 
-        clf,svm_clf = training_model(new_instance)
+
 
 
 

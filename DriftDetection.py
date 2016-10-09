@@ -31,7 +31,7 @@ starting_point=1
 
 def drift_detection():
     # use for taining first time the  model
-    first_instance = X.iloc[:2320]
+    first_instance = X.iloc[:336]
 
     global clf
     global svm_clf
