@@ -15,7 +15,7 @@ def original_data():
     if (os.getenv('COMPUTERNAME', 'defaultValue') == "WKS"):
         data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv', index_col='day')
     elif (os.getenv('COMPUTERNAME', 'defaultValue') == "RAYMUND"):  # raymund pc
-        data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2SEM_MS\INFO411\ASS@\elecNorm.csv', index_col='day')
+        data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2ndSEM_MS\INFO411\ASS2\elecNorm.csv', index_col='day')
 
     # add date time column
     list = []
@@ -83,6 +83,69 @@ def Train_data():
     data=original_data()
     data = data[['nswprice', 'nswdemand','class_data','year','period','class']]
     return data
+
+def season_winter():
+    data = original_data()
+
+    data = data[data.season =='winter']
+    return data
+
+def season_summer():
+    data = original_data()
+    data = data[data.season == 'summer']
+    return data
+
+def season_autumn():
+    data = original_data()
+    data = data[data.season == 'autumn']
+    return data
+
+
+def season_spring():
+    data = original_data()
+    data = data[data.season == 'spring']
+    return data
+
+def month5_96():
+    data = original_data()
+    yr1996 = data[data.year == 1996]
+    data = yr1996[yr1996.month == 5]
+    return data
+
+def week_96():
+    data = original_data()
+    yr = data[data.year == 1997]
+    month = yr[yr.month == 5]
+    data = month[month.week == 19]
+
+    return data
+
+def year1996():
+    data = original_data()
+    data = data[data.year == 1996]
+    return data
+
+def year1997():
+    data = original_data()
+    data = data[data.year == 1997]
+    return data
+
+def year1998():
+    data = original_data()
+    data = data[data.year == 1998]
+    return data
+
+def day():
+
+    data = year1997()
+    data = data[data.month == 1]
+    data = data[data.day ==1]
+    return data
+
+def rollingAve():
+    data = original_data()
+    RollingAve = pd.rolling_mean(data['nswprice'], 48)
+    return RollingAve
 
 
 
