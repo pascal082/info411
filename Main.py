@@ -5,7 +5,7 @@ import DriftDetection
 import OnlineClassification
 import  FixedWindowModel
 import  matplotlib.pyplot  as plt
-import Plots
+import Plotting
 
 def Main():
     data = Data.Train_data()
@@ -32,10 +32,10 @@ def Main():
     #FixedWindowModel.FixedWindowModel()
 
     # SVM.SVM_Classifier(train,test)
-     # Plots.all_data_plot(Data.original_data())
-    # Plots.monthPlot(Data.month5_96())
-    # Plots.weekPlot(Data.week_96())
-    # Plots.dayPlot(Data.day())
-    Plots.plotROllAve(Data.original_data())
+    Plotting.all_data_plot(Data.original_data())
+    Plotting.monthPlot(Data.month5_96())
+    Plotting.weekPlot(Data.week_96())
+    Plotting.dayPlot(Data.day())
+    Plotting.plotROllAve(Data.original_data())
 
 Main()
