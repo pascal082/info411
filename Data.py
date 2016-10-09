@@ -15,7 +15,7 @@ def original_data():
     if (os.getenv('COMPUTERNAME', 'defaultValue') == "WKS"):
         data = pd.read_csv(r'C:\Users\pascal\Documents\DataScience\411\elecNorm.csv', index_col='day')
     elif (os.getenv('COMPUTERNAME', 'defaultValue') == "RAYMUND"):  # raymund pc
-        data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2SEM_MS\INFO411\ASS@\elecNorm.csv', index_col='day')
+        data = pd.read_csv(r'C:\Users\Raymund\Documents\1_2ndSEM_MS\INFO411\ASS2\elecNorm.csv', index_col='day')
 
     # add date time column
     list = []
@@ -112,10 +112,12 @@ def month5_96():
     data = yr1996[yr1996.month == 5]
     return data
 
-def day_97():
+def week_96():
     data = original_data()
-    yr1997 = data[data.year == 1997]
-    data = yr1997[yr1997.day == 1]
+    yr = data[data.year == 1997]
+    month = yr[yr.month == 5]
+    data = month[month.week == 19]
+
     return data
 
 def year1996():
@@ -132,6 +134,18 @@ def year1998():
     data = original_data()
     data = data[data.year == 1998]
     return data
+
+def day():
+
+    data = year1997()
+    data = data[data.month == 1]
+    data = data[data.day ==1]
+    return data
+
+def rollingAve():
+    data = original_data()
+    RollingAve = pd.rolling_mean(data['nswprice'], 48)
+    return RollingAve
 
 
 
