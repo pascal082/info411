@@ -5,7 +5,7 @@ import math
 import DecisionTree
 import SVM
 import pandas as pd
-import Ploting
+import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
@@ -22,7 +22,7 @@ svm_accurancy_list = []
 svm_Tr_list=[]
 svm_Fr_list=[]
 svm_error_rate_list=[]
-instance
+
 
 
 global clf
@@ -98,12 +98,12 @@ def bigwindow_test_model(next_instance, first_instance):
 
 
     plt.title('Decision tree Error rate ')
-    Ploting.plot_error_rate(accurancy_list, error_rate_list)
+    Plotting.plot_error_rate(accurancy_list, error_rate_list)
     plt.title('SVM Error rate ')
-    Ploting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
+    Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
 
     plt.title('Receiver operating curve for Big window detection for SVM/Decision Tree ')
-    Ploting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
+    Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
 
 
 
@@ -141,12 +141,12 @@ def smallwindow_test_model(next_instance, first_instance):
 
 
     plt.title('Decision tree Error rate ')
-    Ploting.plot_error_rate(accurancy_list, error_rate_list)
+    Plotting.plot_error_rate(accurancy_list, error_rate_list)
     plt.title('SVM Error rate ')
-    Ploting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
+    Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
 
     plt.title('Receiver operating curve for Small window detection for SVM/Decision Tree ')
-    Ploting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
+    Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
 
 
 

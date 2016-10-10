@@ -5,7 +5,7 @@ import math
 import DecisionTree
 import SVM
 import pandas as pd
-import Ploting
+import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
@@ -142,12 +142,12 @@ def test_model(first_instance,X):
 
 
     plt.title('Decision tree Error rate ')
-    Ploting.plot_error_rate(accurancy_list, error_rate_list)
+    Plotting.plot_error_rate(accurancy_list, error_rate_list)
     plt.title('SVM Error rate ')
-    Ploting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
+    Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
 
     plt.title('Receiver operating curve for drift detection for SVM/Decision Tree ')
-    Ploting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
+    Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
 
 
 

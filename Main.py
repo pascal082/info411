@@ -6,6 +6,7 @@ import OnlineClassification
 import  FixedWindowModel
 import  matplotlib.pyplot  as plt
 import Plotting
+import Clustering
 
 def Main():
     data = Data.Train_data()
@@ -26,16 +27,20 @@ def Main():
     #OnlineClassification.Online_classification()
 
     #drift detection svm and decision tree
-    DriftDetection.drift_detection()
+    #DriftDetection.drift_detection()
 
     #small and big window detection
     #FixedWindowModel.FixedWindowModel()
 
     # SVM.SVM_Classifier(train,test)
-    Plotting.all_data_plot(Data.original_data())
-    Plotting.monthPlot(Data.month5_96())
-    Plotting.weekPlot(Data.week_96())
-    Plotting.dayPlot(Data.day())
-    Plotting.plotROllAve(Data.original_data())
+    #Plotting.all_data_plot(Data.original_data())
+    #Plotting.monthPlot(Data.month5_96())
+    #Plotting.weekPlot(Data.week_96())
+    #Plotting.dayPlot(Data.day())
+    #Plotting.plotRollAve(Data.original_data())
+    Clustering.Clusters(Data.kdata())
+
+
+
 
 Main()

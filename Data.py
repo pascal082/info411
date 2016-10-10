@@ -74,6 +74,7 @@ def original_data():
         elif i == 'DOWN':
             class_data.append(0)
     merge_data['class_data'] = class_data
+    merge_data['rollingAve'] = pd.Series((pd.rolling_mean(merge_data['nswprice'], 48)), index=merge_data.index)
 
     return merge_data
 
@@ -81,7 +82,7 @@ def original_data():
 # get training data with nswprice and nswdemand as features
 def Train_data():
     data=original_data()
-    data = data[['nswprice', 'nswdemand','class_data','year','period','class']]
+    data = data[['nswprice', 'nswdemand','class_data','year','period','class', 'rollingAve']]
     return data
 
 def season_winter():
@@ -150,8 +151,12 @@ def rollingAve():
 
 
 
+def kdata():
+    data = original_data()
+    data  = data[['nswprice', 'nswdemand','year','period', 'rollingAve']]
+    data = np.nan_to_num(data)
 
-
+    return data
 
 
 

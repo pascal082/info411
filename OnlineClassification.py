@@ -6,7 +6,7 @@ import DecisionTree
 import SVM
 import pandas as pd
 import  matplotlib.pyplot  as plt
-import Ploting
+import Plotting
 
 
 
@@ -81,5 +81,5 @@ def test_model(instance):
         error_rate_list.append(error_rate)
         svm_error_rate_list.append(svm_error_rate)
     plt.title('Receiver operating curve for Online classification for SVM/Decision Tree ')
-    Ploting.plot_roc(Tr_list,Fr_list,svm_Tr_list,svm_Fr_list)
+    Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
 
