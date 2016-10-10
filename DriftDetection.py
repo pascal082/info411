@@ -9,8 +9,8 @@ import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
-data = Data.Train_data()
-X = data[['nswprice', 'nswdemand', 'class_data','class']]
+data = Data.original_data()
+X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve']]
 Pi_list = []
 Si_list = []
 accurancy_list = []

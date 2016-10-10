@@ -2,6 +2,7 @@ from __future__ import division
 from sklearn import svm
 import Data
 
+#wbaseline classifier frm orig data
 def SVM_Classifier(train,test):
 
     X = train[['nswprice', 'nswdemand']]
@@ -40,7 +41,7 @@ def SVM_Classifier(train,test):
 
 
 def SVM_Train(train):
-    X = train[['nswprice', 'nswdemand']]
+    X = train[['nswprice', 'nswdemand', 'rollingAve']]
 
     Y = (train['class'] == 'UP').astype(int)
 
@@ -51,7 +52,7 @@ def SVM_Train(train):
 
 
 def SVM_Predict(test, clf):
-    X1 = test[['nswprice', 'nswdemand']]
+    X1 = test[['nswprice', 'nswdemand', 'rollingAve']]
     Y1 = (test['class'] == 'UP').astype(int)
 
     TG = []

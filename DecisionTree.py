@@ -39,7 +39,7 @@ def DecisionTree(train,test):
 
 
 def DecisionTree_Train(train):
-    X = train[['nswprice', 'nswdemand']]
+    X = train[['nswprice', 'nswdemand', 'rollingAve']]
     Y = train['class_data']
 
     clf = tree.DecisionTreeClassifier()
@@ -48,7 +48,7 @@ def DecisionTree_Train(train):
 
 
 def DecisionTree_Predict(test, clf):
-    X1 = test[['nswprice', 'nswdemand']]
+    X1 = test[['nswprice', 'nswdemand', 'rollingAve']]
     Y1 = test['class_data']
 
     TG = []
