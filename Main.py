@@ -178,9 +178,9 @@ def Main():
 
     #print corr
     #online classification for Decision tree and SVM
-    OnlineClassification.Online_classification()
+    #OnlineClassification.Online_classification()
     #drift detection svm and decision tree
-    #DriftDetection.drift_detection()
+    DriftDetection.drift_detection()
 
     #small and big window detection
     #FixedWindowModel.FixedWindowModel()

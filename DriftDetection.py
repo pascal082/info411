@@ -37,7 +37,7 @@ def drift_detection():
     global svm_clf
     clf,svm_clf = training_model(first_instance)
 
-    test_model(first_instance,X)
+    test_model(first_instance,X,first_instance)
 
 # method to call decision tree model
 def train_decision_model(instance):
@@ -89,28 +89,30 @@ def detect_drift(pi, si):
     return drift_change
 
 
-def test_model(first_instance,X):
+def test_model(first_instance,X,batch):
     global Pi_list, Si_list,clf,starting_point,svm_clf
 
-
-    for i in range(len(first_instance),len(X),2320):
-        new_instance = X.iloc[i:i+2320]
+    batch=instance=batch.drop(batch.index[0:])
+    for i in range(len(first_instance),len(X),1):
+        new_instance = X.iloc[i:i+1]
         #for first time to train model only
         if (starting_point==1):
-            instance = first_instance.append(new_instance, ignore_index=True)
+            batch = first_instance.append(new_instance, ignore_index=True)
+
+
             #set starting oint to 0 because we would never come back to this point
             starting_point = 0
         else:
-            instance = instance.append(new_instance, ignore_index=True)
+           batch = instance.append(new_instance, ignore_index=True)
 
 
-        pi_new, Si_new = calculate_pi_si(instance)
+        pi_new, Si_new = calculate_pi_si(batch)
 
 
         if (detect_drift(pi_new, Si_new) == 0):
 
-            accurancy,error_rate,Tr,Fr = DecisionTree.DecisionTree_Predict(instance, clf)
-            svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(instance, svm_clf)
+            accurancy,error_rate,Tr,Fr = DecisionTree.DecisionTree_Predict(batch, clf)
+            svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(batch, svm_clf)
             accurancy_list.append(accurancy)
             svm_accurancy_list.append(svm_accurancy)
             Tr_list.append(Tr)
@@ -128,11 +130,15 @@ def test_model(first_instance,X):
             del Pi_list[:]
             del Si_list[:]
 
-            instance = instance.drop(instance.index[0:])  #reset instance
-            instance = X.iloc[i:i + 2320]
+            instance.drop(instance.index[0:])  #reset instance
+            instance = X.iloc[i:i + 336]
             print "droping model"
             print "re-training model"
             clf,svm_clf = training_model(instance)
+            print len(X.iloc[(len(instance)):])
+            print len(instance)
+            starting_point == 1
+            test_model(instance,X.iloc[(len(instance)):],instance )
 
 
 
@@ -141,13 +147,13 @@ def test_model(first_instance,X):
     print "error rate", Fr_list
 
 
-    plt.title('Decision tree Error rate ')
-    Plotting.plot_error_rate(accurancy_list, error_rate_list)
-    plt.title('SVM Error rate ')
-    Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
+plt.title('Decision tree Error rate ')
+Plotting.plot_error_rate(accurancy_list, error_rate_list)
+plt.title('SVM Error rate ')
+Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
 
-    plt.title('Receiver operating curve for drift detection for SVM/Decision Tree ')
-    Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
+plt.title('Receiver operating curve for drift detection for SVM/Decision Tree ')
+Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
 
 
 
