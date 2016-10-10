@@ -72,6 +72,7 @@ def DecisionTree_Predict(test, clf):
 
     accurancy = (TP + TN) / len(value)
     error_rate = (TN +FN)/ len(value)
+
     FPR = float(FP / (TN + FP))
     TPR = float(TP / (TP + FN))
     Tr.append(TPR)
@@ -82,6 +83,12 @@ def DecisionTree_Predict(test, clf):
 
 
 
+def DecisionTree_Predict_Instance(test, clf):
+    X1 = test[['nswprice', 'nswdemand', 'rollingAve']]
+    Y1 = test['class_data']
+
+    value = clf.predict(X1)
+    return value
 
 
 

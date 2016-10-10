@@ -86,7 +86,12 @@ def SVM_Predict(test, clf):
 
 
 
+def SVM_Predict_Instance(test, clf):
+    X1 = test[['nswprice', 'nswdemand', 'rollingAve']]
+    Y1 = test['class_data']
 
+    value = clf.predict(X1)
+    return value
 
 
 

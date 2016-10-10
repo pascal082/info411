@@ -23,7 +23,7 @@ def  plot_error_rate(accurancy_list, error_rate_list):
 
     plt.plot(error_rate_list)
     plt.title('Error Rate')
-    plt._show()
+    plt.show()
 
     ## plot NSW prce and demand for all data set
 def all_data_plot(data):
