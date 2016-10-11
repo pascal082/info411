@@ -88,50 +88,54 @@ def detect_drift(pi, si):
     return drift_change
 
 
-def test_model(first_instance,X,clf,svm_clf):
+def test_model(first_instance,X1,clf,svm_clf):
     global Pi_list, Si_list
 
-    if(len(X) > 960):
-        for i in range(len(first_instance),len(X),1):
-            new_instance = X.iloc[i:i+1]
+
+    for i in xrange(len(first_instance),len(X1),1):
+        new_instance = X1.iloc[i:i+1]
 
 
-            first_instance = first_instance.append(new_instance, ignore_index=True)
 
-            pi_new, Si_new = calculate_pi_si(first_instance)
+        first_instance = first_instance.append(new_instance, ignore_index=True)
 
-            print len(first_instance)
-            if (detect_drift(pi_new, Si_new) == 0):
+        pi_new, Si_new = calculate_pi_si(first_instance)
 
-                accurancy,error_rate,Tr,Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
-                svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(first_instance, svm_clf)
-                accurancy_list.append(accurancy)
-                svm_accurancy_list.append(svm_accurancy)
-                Tr_list.append(Tr)
-                Fr_list.append(Fr)
-                svm_Tr_list.append(svm_Tr)
-                svm_Fr_list.append(svm_Fr)
-                error_rate_list.append(error_rate)
-                svm_error_rate_list.append(svm_error_rate)
-                update_pi_si_list(pi_new, Si_new)
+        print len(first_instance)
+        if (detect_drift(pi_new, Si_new) == 0):
 
-                print "Accepting instance"
+            accurancy,error_rate,Tr,Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
+            svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(first_instance, svm_clf)
+            accurancy_list.append(accurancy)
+            svm_accurancy_list.append(svm_accurancy)
+            Tr_list.append(Tr)
+            Fr_list.append(Fr)
+            svm_Tr_list.append(svm_Tr)
+            svm_Fr_list.append(svm_Fr)
+            error_rate_list.append(error_rate)
+            svm_error_rate_list.append(svm_error_rate)
+            update_pi_si_list(pi_new, Si_new)
 
-            else:
-                # reset global variable and empty instance
-                del Pi_list[:]
-                del Si_list[:]
+            print "Accepting instance"
 
-                first_instance.drop(first_instance.index[0:])  #reset instance
-                new_first_instance = X.iloc[i:i + 336]
-                print "droping model"
-                print "i",i
-                print "re-training model"
-                clf,svm_clf = training_model(new_first_instance)
-                print len(X.iloc[(len(new_first_instance)):])
-                print len(new_first_instance)
 
-                test_model(new_first_instance,X.iloc[(len(new_first_instance)):],clf,svm_clf)
+        else:
+            # reset global variable and empty instance
+            del Pi_list[:]
+            del Si_list[:]
+
+            first_instance=first_instance.drop(first_instance.index[0:])  #reset instance
+            new_first_instance = X.iloc[i:i + 336]
+            print "droping model"
+            print "i",i
+            print "re-training model"
+            clf,svm_clf = training_model(new_first_instance)
+            print len(X.index[(len(new_first_instance)):])
+            print len(new_first_instance)
+
+            test_model(new_first_instance,X.iloc[(len(new_first_instance)):],clf,svm_clf)
+
+
 
 
 

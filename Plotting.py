@@ -22,7 +22,6 @@ def plot_roc(Tr,Fr,sv_Tr,sv_Fr):
 def  plot_error_rate(accurancy_list, error_rate_list):
 
     plt.plot(error_rate_list)
-    plt.title('Error Rate')
     plt.show()
 
     ## plot NSW prce and demand for all data set
