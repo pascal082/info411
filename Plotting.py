@@ -75,3 +75,70 @@ def corr_plot(df):
     ax.set_yticklabels(labels, fontsize=10)
 
     plt.show()
+
+
+def histograms_seasons(winter, spring, summer, fall, year, month, yr96, yr97, yr98):
+    plt.hist(winter['nswprice'],50, normed=1, facecolor='g')
+    plt.title("Winter Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(spring['nswprice'],50, normed=1, facecolor='g')
+    plt.title("Spring Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(summer['nswprice'],50, normed=1, facecolor='g')
+    plt.title("Summer Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(fall['nswprice'],50, normed=1, facecolor='g')
+    plt.title("Fall Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(year['nswprice'],50, normed=1, facecolor='g')
+    plt.title("NSW Price 1996 to 1998 Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(month['nswprice'], 50, normed=1, facecolor='g')
+    plt.title("May 1996 Histogram")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+
+    plt.show()
+
+    plt.hist(yr96['nswprice'], 50, normed=1, facecolor='g')
+    plt.title("1996")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(yr97['nswprice'], 50, normed=1, facecolor='g')
+    plt.title("1997")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+    plt.show()
+
+    plt.hist(yr98['nswprice'], 50, normed=1, facecolor='g')
+    plt.title("1998")
+    plt.xlabel("price")
+    plt.axis([0, 0.4, 0, 18])
+    plt.ylabel("frequency")
+
+    plt.show()
