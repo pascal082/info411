@@ -9,7 +9,9 @@ import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
+# data source
 data = Data.original_data()
+#reasign data to variable X, remove unnecessary columns
 X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve']]
 Pi_list = []
 Si_list = []
@@ -27,10 +29,10 @@ drift_change = 0
 
 starting_point=1
 
-
+##function for drift detection
 def drift_detection():
     # use for taining first time the  model
-    first_instance = X.iloc[:336]
+    first_instance = X.iloc[:1334]
 
     global clf
     global svm_clf
@@ -38,13 +40,13 @@ def drift_detection():
 
     test_model(first_instance,X,clf,svm_clf)
 
-# method to call decision tree model
+#method to call decision tree model
 def train_decision_model(instance):
     clf = DecisionTree.DecisionTree_Train(instance)
     return clf
 
 
-# method to call svm  model
+#method to call svm  model
 def train_svm_model(instance):
     svm_clf = SVM.SVM_Train(instance)
     return svm_clf
@@ -125,7 +127,7 @@ def test_model(first_instance,X1,clf,svm_clf):
             del Si_list[:]
 
             first_instance=first_instance.drop(first_instance.index[0:])  #reset instance
-            new_first_instance = X.iloc[i:i + 336]
+            new_first_instance = X.iloc[i:i + 1334]
             print "droping model"
             print "i",i
             print "re-training model"
