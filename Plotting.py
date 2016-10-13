@@ -32,6 +32,8 @@ def all_data_plot(data):
     plt.title('NSW Demand and NSW Price Full Year')
     plt.show()
 
+
+
 def monthPlot(data):
     plt.plot(data['new_date'], data['nswprice'], 'blue', label="NSW Price")
     plt.plot(data['new_date'], data['nswdemand'], 'red', label='NSW Demand')

@@ -5,14 +5,14 @@ import math
 import DecisionTree
 import SVM
 import pandas as pd
+import numpy as np
 import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
-# data source
 data = Data.original_data()
-#reasign data to variable X, remove unnecessary columns
-X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve']]
+data=data[data.year != 1998]
+X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve','minute',  'month',  'quarter',  'week','weekday']]
 Pi_list = []
 Si_list = []
 accurancy_list = []
@@ -23,90 +23,89 @@ error_rate_list=[]
 svm_accurancy_list = []
 svm_Tr_list=[]
 svm_Fr_list=[]
+z_list=[]
 svm_error_rate_list=[]
 
-drift_change = 0
 
-starting_point=1
 
-##function for drift detection
+global clf
+global svm_clf
+
+
+
 def drift_detection():
-    # use for taining first time the  model
-    first_instance = X.iloc[:1334]
 
     global clf
     global svm_clf
+
+    #our drift detection includes the week feature 
+    # small window use for training the  model
+    first_instance = X.iloc[:336]
+    next_instance =X.iloc[336:]
+
+    # big wndow use for training the  model
+    first_instance2 = X.iloc[:1444]
+    next_instance2 = X.iloc[1445:]
+
     clf,svm_clf = training_model(first_instance)
 
-    test_model(first_instance,X,clf,svm_clf)
+    #big window
+    window_test_model(next_instance2,first_instance2,"Big window")
+    #small window
+    window_test_model(next_instance,first_instance,"small window")
 
-#method to call decision tree model
+# method to call decision tree model
 def train_decision_model(instance):
     clf = DecisionTree.DecisionTree_Train(instance)
     return clf
 
 
-#method to call svm  model
+# method to call svm  model
 def train_svm_model(instance):
     svm_clf = SVM.SVM_Train(instance)
     return svm_clf
 
 
+def twoSampZ(data,test,window_size):
+    from scipy.stats import norm
+    import numpy as np
+    from numpy import sqrt, abs, round
+    std_diff = np.std(data) - np.std(test) / np.std(data)
+    SE = np.std(data) / np.sqrt(window_size)
+    z_score = np.mean(test) - np.mean(data) / SE
+    pval = 2 * (1 - norm.cdf(abs(z_score)))
+    return z_score,pval
 
-
-# training initial or re-training first model
+# training model
 def training_model(instance):
-    global Pi_list,Si_list
-    # pass the first/next 48 data to our decisiontree and SVM
+
     clf = train_decision_model(instance)
     svm_clf = train_svm_model(instance)
-    pi_model,Si_model = calculate_pi_si(instance)
-    Pi_list.append(pi_model)
-    Si_list.append(Si_model)
-
 
     return clf,svm_clf
 
 
-def calculate_pi_si(instance):
-    pi_new = (instance['class_data'] == 0).sum() / len(instance)
+def window_test_model(next_instance, first_instance,windowName):
+    global Pi_list, Si_list,clf,starting_point,svm_clf,z_list
 
-    Si_new = float(math.sqrt(pi_new * (1 - pi_new) / pi_new))
-    return pi_new, Si_new
-
-
-def update_pi_si_list(pi, si):
-    Pi_list.append(pi)
-    Si_list.append(si)
-    return Pi_list, Si_list
+    z_list.append(-200.5)
 
 
-def detect_drift(pi, si):
-    global drift_change
-    if ((pi + si) < (min(Pi_list) + min(Si_list))):
-        drift_change = 0
-    else:
-        drift_change = 1
-    return drift_change
-
-
-def test_model(first_instance,X1,clf,svm_clf):
-    global Pi_list, Si_list
-
-
-    for i in xrange(len(first_instance),len(X1),1):
-        new_instance = X1.iloc[i:i+1]
-
-
-
+    for i in range(1,len(next_instance),200):
+        new_instance = next_instance.iloc[i]
+        # add more instance and test
         first_instance = first_instance.append(new_instance, ignore_index=True)
+        first_instance1 = first_instance[['rollingAve']]
+        new_instance1 = new_instance[['rollingAve']]
+        #calculate z score using only the rolling average
+        z = twoSampZ(first_instance1, new_instance1, len(new_instance1))
+        z_list
+        z_list.append(z)
 
-        pi_new, Si_new = calculate_pi_si(first_instance)
 
-        print len(first_instance)
-        if (detect_drift(pi_new, Si_new) == 0):
 
-            accurancy,error_rate,Tr,Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
+        if(z>min(z_list)):
+            accurancy, error_rate, Tr, Fr = DecisionTree.DecisionTree_Predict(first_instance, clf)
             svm_accurancy, svm_error_rate, svm_Tr, svm_Fr = SVM.SVM_Predict(first_instance, svm_clf)
             accurancy_list.append(accurancy)
             svm_accurancy_list.append(svm_accurancy)
@@ -116,28 +115,24 @@ def test_model(first_instance,X1,clf,svm_clf):
             svm_Fr_list.append(svm_Fr)
             error_rate_list.append(error_rate)
             svm_error_rate_list.append(svm_error_rate)
-            update_pi_si_list(pi_new, Si_new)
-
-            print "Accepting instance"
-
-
+            print(error_rate)
+            first_instance=first_instance.drop(first_instance.index[1])
+            print(svm_error_rate)
+            clf,svm_clf = training_model(first_instance)
         else:
-            # reset global variable and empty instance
+
             del Pi_list[:]
             del Si_list[:]
+            del z_list[:]
 
-            first_instance=first_instance.drop(first_instance.index[0:])  #reset instance
-            new_first_instance = X.iloc[i:i + 1334]
-            print "droping model"
-            print "i",i
-            print "re-training model"
-            clf,svm_clf = training_model(new_first_instance)
+            first_instance = first_instance.drop(first_instance.index[0:])  # reset instance
+            new_first_instance = X.iloc[i:i + 336]
+
+            clf, svm_clf = training_model(new_first_instance)
             print len(X.index[(len(new_first_instance)):])
             print len(new_first_instance)
 
-            test_model(new_first_instance,X.iloc[(len(new_first_instance)):],clf,svm_clf)
-
-
+            window_test_model(new_first_instance, X.iloc[(len(new_first_instance) - 336):],windowName)
 
 
 
@@ -146,20 +141,10 @@ def test_model(first_instance,X1,clf,svm_clf):
     print "error rate", Fr_list
 
 
-"""
-plt.title('Decision tree Error rate ')
-Plotting.plot_error_rate(accurancy_list, error_rate_list)
-plt.title('SVM Error rate ')
-Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
-
-plt.title('Receiver operating curve for drift detection for SVM/Decision Tree ')
-Plotting.plot_roc(Tr_list, Fr_list, svm_Tr_list, svm_Fr_list)
-"""
-
-
-
-
-
+    plt.title('Drift decision for decision tree Error rate using '+ windowName)
+    Plotting.plot_error_rate(accurancy_list, error_rate_list)
+    plt.title('Drift decision for SVM Error rate using '+ windowName)
+    Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
 
 
 

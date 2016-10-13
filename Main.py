@@ -18,7 +18,7 @@ def Main():
     train = data[data.year != 1998]
     test = data[data.year == 1998]
     ##data set with new features
-    new_data = Data.original_data()
+
     """
     #base line decision tree and SVM
     svm_accuracy_list, svm_error_rate_list=SVM.SVM_Classifier(train,test)

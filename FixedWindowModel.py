@@ -9,8 +9,9 @@ import Plotting
 import  matplotlib.pyplot  as plt
 
 #define global variable
-data = Data.season_summer()
-X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve']]
+data = Data.original_data()
+data=data[data.year != 1998]
+X = data[['nswprice', 'nswdemand', 'class_data','class','rollingAve','minute',  'month',  'quarter',  'week','weekday']]
 Pi_list = []
 Si_list = []
 accurancy_list = []
@@ -92,9 +93,9 @@ def window_test_model(next_instance, first_instance,windowName):
         svm_Fr_list.append(svm_Fr)
         error_rate_list.append(error_rate)
         svm_error_rate_list.append(svm_error_rate)
-        print(len(first_instance))
+        print(error_rate)
         first_instance=first_instance.drop(first_instance.index[1])
-        print(len(first_instance))
+        print(svm_error_rate)
         clf,svm_clf = training_model(first_instance)
 
 
@@ -108,6 +109,9 @@ def window_test_model(next_instance, first_instance,windowName):
     Plotting.plot_error_rate(accurancy_list, error_rate_list)
     plt.title('SVM Error rate '+ windowName)
     Plotting.plot_error_rate(svm_accurancy_list, svm_error_rate_list)
+
+
+
 
 
 
